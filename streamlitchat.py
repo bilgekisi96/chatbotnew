@@ -35,7 +35,7 @@ if st.button("Tahmin Et"):
             film_labels = label_encoder.fit_transform(film_titles)
 
             # Kullanıcı girişini kontrol et
-            if user_input.strip():
+            if user_input:
                 # Kullanıcı girişini vektörleştir
                 user_vector = vectorizer.transform([user_input]).toarray()
 
