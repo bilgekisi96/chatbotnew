@@ -26,8 +26,6 @@ def run_streamlit():
     st.title("Streamlit ve Flask Entegrasyonu")
     input_value = st.number_input("Tahmin için bir değer girin:", step=1.0)
     if st.button("Tahmin Et"):
-        response = requests.post("http://127.0.0.1:5000/predict", json={"input": [input_value]})
-        prediction = response.json()["prediction"]
         st.write(f"Tahmin Sonucu: Merhaba Flask")
 
 # Paralel çalıştırma
