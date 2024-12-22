@@ -4,9 +4,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.preprocessing import LabelEncoder
 from tensorflow.keras.models import load_model
 
-model = load_model("moviesmodel.keras")
-vectorizer = TfidfVectorizer()  
-label_encoder = LabelEncoder()  
+  
 
 st.title("Movie Review Sentiment Analysis")
 
@@ -15,6 +13,9 @@ user_input = st.text_input("Ruh halinizi veya şu anki hislerinizi birkaç cüml
 
 
 if st.button("Tahmin Et"):
+    model = load_model("moviesmodel.keras")
+    vectorizer = TfidfVectorizer()  
+    label_encoder = LabelEncoder()
     if user_input.strip():  
         try:
             
