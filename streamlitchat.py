@@ -3,6 +3,7 @@ import pandas as pd
 import streamlit as st
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.preprocessing import LabelEncoder
+import tensorflow as tf
 from tensorflow.keras.models import load_model
 
 # Başlık
@@ -39,7 +40,7 @@ if st.button("Tahmin Et"):
                 user_vector = vectorizer.transform([user_input]).toarray()
 
                 # Modeli yükleme
-                model = load_model("moviesmodel.h5")
+                model = load_model('moviesmodel.keras', custom_objects={'InputLayer': tf.keras.layers.Input})
 
                 # Tahmin yapma
                 prediction = model.predict(user_vector)
