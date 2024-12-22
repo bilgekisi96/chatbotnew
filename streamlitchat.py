@@ -1,4 +1,5 @@
 import numpy as np
+import pandas as pd
 import streamlit as st
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.preprocessing import LabelEncoder
@@ -15,22 +16,22 @@ user_input = st.text_input("Ruh halinizi veya şu anki hislerinizi birkaç cüml
 if st.button("Tahmin Et"):
     model = load_model("moviesmodel.keras")
     vectorizer = TfidfVectorizer()
-
+    df = pd.read_csv("Topmovies.csv")
+    filmer = [{"title":k} for k in df.name]
+    t = 0
+    for p in df.tagline:
+        filmer[t]['description'] = p
+        t+=1   
+        
+    films = filmer
+    film_descriptions = [film['description'] for film in films]
+    film_titles = [film['title'] for film in films]    
 
 
     if user_input.strip():  
         try:
             
-            df = pd.read_csv("Topmovies.csv")
-            filmer = [{"title":k} for k in df.name]
-            t = 0
-            for p in df.tagline:
-                filmer[t]['description'] = p
-                t+=1   
-                
-            films = filmer
-            film_descriptions = [film['description'] for film in films]
-            film_titles = [film['title'] for film in films]
+            
 
             film_vectors = vectorizer.fit_transform(film_descriptions).toarray()  # Film açıklamalarını vektörleştir
             user_vector = vectorizer.transform([user_input]).toarray()  # Kullanıcı girişini vektörleştir
