@@ -18,6 +18,7 @@ def setup_api_handler(uri, handler):
 class HelloHandler(RequestHandler):
   def get(self):
     self.write({'message': 'hello world'})
+    st.write("Hello from Tornado")
 
 # This setup will be run only once
 setup_api_handler('/api/hello', HelloHandler)
