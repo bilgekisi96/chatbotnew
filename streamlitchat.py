@@ -1,9 +1,8 @@
 import numpy as np
 import streamlit as st
-from tensorflow.keras.models import load_model
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.preprocessing import LabelEncoder
-
+from tensorflow.keras.models import load_model
 
 model = load_model("moviesmodel.keras")
 vectorizer = TfidfVectorizer()  
