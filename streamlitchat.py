@@ -13,7 +13,7 @@ st.title("Movie Review Sentiment Analysis")
 user_input = st.text_input("Ruh halinizi veya şu anki hislerinizi birkaç cümleyle ifade edin:")
 
 if st.button("Tahmin Et"):
-    model = load_model("moviesmodel.keras")
+    
     
     vectorizer = TfidfVectorizer()
     df = pd.read_csv("Topmovies.csv")
@@ -30,7 +30,7 @@ if st.button("Tahmin Et"):
 
     if user_input:  
         try:
-
+            model = load_model("moviesmodel.keras")
             film_vectors = vectorizer.fit_transform(film_descriptions).toarray()  # Film açıklamalarını vektörleştir
             user_vector = vectorizer.transform([user_input]).toarray()  # Kullanıcı girişini vektörleştir
 
