@@ -17,7 +17,7 @@ if st.button("Tahmin Et"):
         # Veri yükleme
         df = pd.read_csv("Topmovies.csv")  # Film verisi
         if "name" not in df.columns or "tagline" not in df.columns:
-            st.error("CSV dosyasında gerekli sütunlar bulunamadı!")
+            st.error("CSV dosyasinda gerekli sütunlar bulunama!")
         else:
             # Film bilgilerini hazırlama
             filmer = [{"title": row["name"], "description": row["tagline"]} for _, row in df.iterrows() if pd.notna(row["tagline"])]
@@ -39,7 +39,7 @@ if st.button("Tahmin Et"):
                 user_vector = vectorizer.transform([user_input]).toarray()
 
                 # Modeli yükleme
-                model = load_model("moviesmodel.keras")
+                model = load_model("moviesmodel.h5")
 
                 # Tahmin yapma
                 prediction = model.predict(user_vector)
@@ -51,8 +51,8 @@ if st.button("Tahmin Et"):
             else:
                 st.warning("Lütfen bir metin girin!")
     except FileNotFoundError as fnf_error:
-        st.error("Gerekli dosyalar bulunamadı! Lütfen 'Topmovies.csv' ve 'moviesmodel.keras' dosyalarını kontrol edin.")
+        st.error("Gerekli dosyalar bulunamadi! Lütfen 'Topmovies.csv' ve 'moviesmodel.keras' dosyalarını kontrol edin.")
     except Exception as e:
-        st.error(f"Tahmin sırasında bir hata oluştu: {str(e)}")
+        st.error(f"Tahmin sirasinda bir hata oluştu: {str(e)}")
 
 
