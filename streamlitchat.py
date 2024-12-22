@@ -10,11 +10,10 @@ from tensorflow.keras.models import load_model
 st.title("Movie Review Sentiment Analysis")
 
 
-user_input = st.text_input("Ruh halinizi veya şu anki hislerinizi birkaç cümleyle ifade edin:")
-
 
 if st.button("Tahmin Et"):
-    
+    model = load_model("moviesmodel.keras")
+    user_input = st.text_input("Ruh halinizi veya şu anki hislerinizi birkaç cümleyle ifade edin:")
     vectorizer = TfidfVectorizer()
     df = pd.read_csv("Topmovies.csv")
     filmer = [{"title":k} for k in df.name]
@@ -28,15 +27,15 @@ if st.button("Tahmin Et"):
     film_titles = [film['title'] for film in films]    
 
 
-    if user_input.strip():  
+    if user_input:  
         try:
 
             film_vectors = vectorizer.fit_transform(film_descriptions).toarray()  # Film açıklamalarını vektörleştir
             user_vector = vectorizer.transform([user_input]).toarray()  # Kullanıcı girişini vektörleştir
 
             label_encoder = LabelEncoder()
+            film_labels = label_encoder.fit_transform(film_titles)
             
-            model = load_model("moviesmodel.keras")
             # Tahmin yapma
             prediction = model.predict(user_vector)
             predicted_label = np.argmax(prediction)
