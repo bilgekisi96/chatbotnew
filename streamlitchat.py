@@ -2,7 +2,6 @@ import threading
 from flask import Flask, request, jsonify
 import tensorflow as tf
 import os
-import streamlit.cli as stcli
 import sys
 
 # Flask API uygulaması
@@ -27,7 +26,7 @@ def run_flask():
 def run_streamlit():
     os.environ["STREAMLIT_SERVER_PORT"] = "8501"
     sys.argv = ["streamlit", "run", "streamlit_app.py"]
-    stcli.main()
+    
 
 if __name__ == '__main__':
     flask_thread = threading.Thread(target=run_flask)
