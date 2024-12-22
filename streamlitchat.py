@@ -17,8 +17,8 @@ model.compile(optimizer='sgd', loss='mean_squared_error')
 def predict():
     data = request.json
     input_value = data['input']
-    prediction = model.predict([input_value]).tolist()
-    return jsonify({"prediction": prediction})
+    #prediction = model.predict([input_value]).tolist()
+    return {'prediction': 'Hello from Flask!'}
 
 def run_flask():
     app.run(debug=True, use_reloader=False, port=5000)
