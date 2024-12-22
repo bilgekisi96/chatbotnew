@@ -1,35 +1,23 @@
-import threading
-from flask import Flask, request, jsonify
-import tensorflow as tf
+from tornado.web import Application, RequestHandler
+from tornado.routing import Rule, PathMatches
+import gc
 import streamlit as st
-import requests
 
-# Flask API
-app = Flask(__name__)
 
-model = tf.keras.Sequential([
-    tf.keras.layers.Dense(1, input_shape=[1])
-])
-model.compile(optimizer='sgd', loss='mean_squared_error')
+@st.cache_resource()
+def setup_api_handler(uri, handler):
+    print("Setup Tornado. Should be called only once")
 
-@app.route('/predict', methods=['POST'])
-def predict():
-    data = request.json
-    input_value = data['input']
-    prediction = model.predict([input_value]).tolist()
-    return jsonify({"prediction": prediction})
+    # Get instance of Tornado
+    tornado_app = next(o for o in gc.get_referrers(Application) if o.__class__ is Application)
 
-def run_flask():
-    app.run(debug=True, use_reloader=False, port=5000)
+    # Setup custom handler
+    tornado_app.wildcard_router.rules.insert(0, Rule(PathMatches(uri), handler))
+    
+# === Usage ======
+class HelloHandler(RequestHandler):
+  def get(self):
+    self.write({'message': 'hello world'})
 
-def run_streamlit():
-    st.title("Streamlit ve Flask Entegrasyonu")
-    input_value = st.number_input("Tahmin için bir değer girin:", step=1.0)
-    if st.button("Tahmin Et"):
-        st.write(f"Tahmin Sonucu: Merhaba Flask")
-
-# Paralel çalıştırma
-if __name__ == '__main__':
-    flask_thread = threading.Thread(target=run_flask)
-    flask_thread.start()
-    run_streamlit()
+# This setup will be run only once
+setup_api_handler('/api/hello', HelloHandler)
