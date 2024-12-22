@@ -14,7 +14,7 @@ user_input = st.text_input("Ruh halinizi veya şu anki hislerinizi birkaç cüml
 
 
 if st.button("Tahmin Et"):
-    model = load_model("moviesmodel.keras")
+    
     vectorizer = TfidfVectorizer()
     df = pd.read_csv("Topmovies.csv")
     filmer = [{"title":k} for k in df.name]
@@ -30,15 +30,13 @@ if st.button("Tahmin Et"):
 
     if user_input.strip():  
         try:
-            
-            
 
             film_vectors = vectorizer.fit_transform(film_descriptions).toarray()  # Film açıklamalarını vektörleştir
             user_vector = vectorizer.transform([user_input]).toarray()  # Kullanıcı girişini vektörleştir
 
             label_encoder = LabelEncoder()
             film_labels = label_encoder.fit_transform(film_titles)
-            
+            model = load_model("moviesmodel.keras")
             # Tahmin yapma
             prediction = model.predict(user_vector)
             predicted_label = np.argmax(prediction)
