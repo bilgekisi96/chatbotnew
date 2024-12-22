@@ -35,7 +35,7 @@ if st.button("Tahmin Et"):
             user_vector = vectorizer.transform([user_input]).toarray()  # Kullanıcı girişini vektörleştir
 
             label_encoder = LabelEncoder()
-            film_labels = label_encoder.fit_transform(film_titles)
+            
             model = load_model("moviesmodel.keras")
             # Tahmin yapma
             prediction = model.predict(user_vector)
